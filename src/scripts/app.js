@@ -124,16 +124,84 @@ document.addEventListener('DOMContentLoaded', () => {
         checkoutForm.addEventListener('submit', (e) => {
             e.preventDefault();
             
+            // Проверяем авторизацию
+            const user = JSON.parse(localStorage.getItem('user') || 'null');
+            if (!user || !user.loggedIn) {
+                showNotification('Необходимо войти в аккаунт для оформления заказа', 'error');
+                return;
+            }
+            
             const formData = {
                 name: document.getElementById('name').value,
                 email: document.getElementById('email').value,
                 discord: document.getElementById('discord').value,
                 serverName: document.getElementById('server-name').value,
                 planId: planId,
-                cart: localStorage.getItem('checkoutCart') ? JSON.parse(localStorage.getItem('checkoutCart')) : null
+                cart: localStorage.getItem('checkoutCart') ? JSON.parse(localStorage.getItem('checkoutCart')) : null,
+                orderDate: new Date().toISOString()
             };
             
-            console.log('Данные заказа:', formData);
+            // Вычисляем общую стоимость заказа
+            const cartData = formData.cart || [];
+            let totalPrice = 0;
+            cartData.forEach(item => {
+                const price = parseFloat(item.price.replace(/[^\d]/g, ''));
+                totalPrice += price * (item.quantity || 1);
+            });
+            
+            // Проверяем достаточно ли средств
+            if (user.balance < totalPrice) {
+                showNotification(`Недостаточно средств! Требуется: ${totalPrice}₽, Доступно: ${user.balance}₽`, 'error');
+                return;
+            }
+            
+            // Списываем средства
+            user.balance -= totalPrice;
+            localStorage.setItem('user', JSON.stringify(user));
+            
+            // Обновляем баланс в массиве пользователей
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const userIndex = users.findIndex(u => u.email === user.email);
+            if (userIndex !== -1) {
+                users[userIndex].balance = user.balance;
+                localStorage.setItem('users', JSON.stringify(users));
+            }
+            
+            // Получаем заказы пользователя из localStorage
+            const userOrders = JSON.parse(localStorage.getItem('userOrders') || '[]');
+            
+            // Генерируем рандомный пароль для панели
+            function generateRandomPassword() {
+                const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+                let password = '';
+                for (let i = 0; i < 12; i++) {
+                    password += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
+                return password;
+            }
+            
+            // Находим существующие заказы пользователя
+            const existingUserOrders = userOrders.filter(order => order.userId === user.email);
+            
+            // Если у пользователя уже есть заказы, используем существующий пароль панели
+            // Если это первый заказ - генерируем новый пароль
+            const panelPassword = existingUserOrders.length > 0 
+                ? existingUserOrders[0].panelPassword 
+                : generateRandomPassword();
+            
+            // Добавляем новый заказ
+            const newOrder = {
+                id: 'order_' + Date.now(),
+                userId: user.email,
+                ...formData,
+                status: 'active',
+                panelUrl: 'http://108.165.164.141/',
+                panelLogin: user.email,
+                panelPassword: panelPassword // Рандомный пароль для панели (одинаковый для всех серверов пользователя)
+            };
+            
+            userOrders.push(newOrder);
+            localStorage.setItem('userOrders', JSON.stringify(userOrders));
             
             // Очищаем корзину после успешного заказа
             cart = [];
@@ -141,13 +209,15 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.removeItem('checkoutCart');
             updateCartUI();
             
-            // Перенаправляем на главную страницу
-            setTimeout(() => {
-                window.location.href = '/';
-            }, 1000);
+            // Обновляем UI баланса
+            updateUserUI();
             
-            // Можно добавить отправку данных на сервер
-            // fetch('/api/order', { method: 'POST', body: JSON.stringify(formData) })
+            showNotification(`Заказ успешно оформлен! Списано ${totalPrice}₽`, 'success');
+            
+            // Перенаправляем на страницу "Мои услуги"
+            setTimeout(() => {
+                window.location.href = '/services';
+            }, 1000);
         });
     }
 
@@ -268,6 +338,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const userData = {
                 name: user.name,
                 email: user.email,
+                password: user.password, // Сохраняем пароль для доступа к панели
                 balance: user.balance,
                 loggedIn: true
             };
@@ -324,6 +395,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const userData = {
                 name: name,
                 email: email,
+                password: password, // Сохраняем пароль для доступа к панели
                 balance: 500,
                 loggedIn: true
             };
@@ -691,6 +763,96 @@ function logout() {
     });
     
     showNotification('Вы вышли из аккаунта', 'success');
+}
+
+// Функция открытия модального окна смены пароля
+function openChangePasswordModal() {
+    const user = JSON.parse(localStorage.getItem('user') || 'null');
+    if (!user || !user.loggedIn) {
+        showNotification('Необходимо войти в аккаунт', 'error');
+        return;
+    }
+    
+    // Закрываем меню профиля
+    const profileMenu = document.getElementById('profile-menu');
+    if (profileMenu) {
+        profileMenu.classList.remove('show');
+    }
+    
+    openModal('changePasswordModal');
+}
+
+// Обработчик формы смены пароля
+const changePasswordForm = document.getElementById('changePasswordForm');
+if (changePasswordForm) {
+    changePasswordForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const currentPassword = document.getElementById('current-password').value;
+        const newPassword = document.getElementById('new-password').value;
+        const confirmNewPassword = document.getElementById('confirm-new-password').value;
+        
+        const user = JSON.parse(localStorage.getItem('user') || 'null');
+        if (!user || !user.loggedIn) {
+            showNotification('Необходимо войти в аккаунт', 'error');
+            return;
+        }
+        
+        // Получаем текущий пароль панели из первого заказа
+        const userOrders = JSON.parse(localStorage.getItem('userOrders') || '[]');
+        const userOrder = userOrders.find(order => order.userId === user.email);
+        const currentPanelPassword = userOrder ? userOrder.panelPassword : '';
+        
+        // Проверяем текущий пароль панели
+        if (currentPassword !== currentPanelPassword) {
+            showNotification('Неверный текущий пароль', 'error');
+            return;
+        }
+        
+        // Проверяем, что новый пароль отличается от текущего
+        if (newPassword === currentPanelPassword) {
+            showNotification('Новый пароль должен отличаться от текущего', 'error');
+            return;
+        }
+        
+        // Проверяем совпадение новых паролей
+        if (newPassword !== confirmNewPassword) {
+            showNotification('Новые пароли не совпадают', 'error');
+            return;
+        }
+        
+        // Проверяем длину пароля
+        if (newPassword.length < 6) {
+            showNotification('Пароль должен содержать минимум 6 символов', 'error');
+            return;
+        }
+        
+        // Обновляем пароль в текущем пользователе
+        user.password = newPassword;
+        localStorage.setItem('user', JSON.stringify(user));
+        
+        // Обновляем пароль в массиве пользователей
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        const userIndex = users.findIndex(u => u.email === user.email);
+        if (userIndex !== -1) {
+            users[userIndex].password = newPassword;
+            localStorage.setItem('users', JSON.stringify(users));
+        }
+        
+        // Обновляем пароль панели во всех заказах пользователя
+        userOrders.forEach(order => {
+            if (order.userId === user.email) {
+                order.panelPassword = newPassword;
+            }
+        });
+        localStorage.setItem('userOrders', JSON.stringify(userOrders));
+        
+        // Очищаем форму
+        changePasswordForm.reset();
+        closeModal('changePasswordModal');
+        
+        showNotification('Пароль успешно изменен!', 'success');
+    });
 }
 
 // Уведомления (вместо alert)

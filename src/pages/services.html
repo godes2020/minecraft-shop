@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мои услуги - MineCraft Hosting</title>
+    <link rel="stylesheet" href="/styles/main.css">
+</head>
+<body>
+    <!-- Анимированные объекты на фоне -->
+    <div class="floating-objects">
+        <div class="floating-cube"></div>
+        <div class="floating-cube"></div>
+        <div class="floating-cube"></div>
+        <div class="floating-cube"></div>
+        <div class="floating-cube"></div>
+        <div class="floating-diamond"></div>
+        <div class="floating-diamond"></div>
+        <div class="floating-diamond"></div>
+    </div>
+
+    <!-- Панель корзины -->
+    <div class="cart-panel" id="cart-panel">
+        <div class="cart-header">
+            <h2>Корзина</h2>
+            <button class="cart-close" onclick="toggleCart()">&times;</button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <div class="cart-empty">
+                <div class="cart-empty-icon">🛒</div>
+                <p>Корзина пуста</p>
+                <p style="font-size: 0.9rem; margin-top: 0.5rem;">Добавьте тарифы для оформления заказа</p>
+            </div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span class="cart-total-label">Итого:</span>
+                <span class="cart-total-amount" id="cart-total">0 ₽</span>
+            </div>
+            <button class="cart-checkout-btn" onclick="checkoutFromCart()" disabled id="cart-checkout-btn">
+                Оформить заказ
+            </button>
+        </div>
+    </div>
+
+    <nav>
+        <div class="nav-container">
+            <a href="/" class="logo">MINECRAFT HOSTING</a>
+            <ul class="nav-links">
+                <li><a href="/">Главная</a></li>
+                <li><a href="/shop">Тарифы</a></li>
+                <li><a href="/constructor">Конструктор</a></li>
+                <li><a href="/services" class="active">Мои услуги</a></li>
+            </ul>
+            <div class="nav-actions">
+                <div class="balance-display" style="display: none;">
+                    <span class="balance-label">Баланс:</span>
+                    <span class="balance-amount">0 ₽</span>
+                </div>
+                <button class="cart-button" onclick="toggleCart()">
+                    🛒
+                    <span class="cart-badge" id="cart-badge" style="display: none;">0</span>
+                </button>
+                <button class="nav-btn login-btn">Войти</button>
+                <button class="nav-btn register-btn">Регистрация</button>
+                <div class="user-profile" id="user-profile" style="display: none;">
+                    <button class="profile-button" onclick="toggleProfileMenu()">
+                        <span class="profile-avatar" id="profile-avatar">👤</span>
+                    </button>
+                    <div class="profile-menu" id="profile-menu">
+                        <div class="profile-header">
+                            <div class="profile-name" id="profile-name">Пользователь</div>
+                            <div class="profile-email" id="profile-email">user@email.com</div>
+                        </div>
+                        <div class="profile-balance">
+                            <span class="balance-label">Баланс:</span>
+                            <span class="balance-amount" id="user-balance">0 ₽</span>
+                        </div>
+                        <div class="profile-menu-items">
+                            <a href="/services" class="profile-menu-item">📊 Мои услуги</a>
+                            <a href="#" class="profile-menu-item">💳 Пополнить баланс</a>
+                            <a href="#" class="profile-menu-item" onclick="openChangePasswordModal()">🔑 Сменить пароль</a>
+                            <a href="#" class="profile-menu-item logout-item" onclick="logout()">🚪 Выход</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="services-section">
+            <div class="services-header">
+                <h1>Мои Услуги</h1>
+                <p>Управление вашими серверами Minecraft</p>
+            </div>
+
+            <div class="services-container" id="services-container">
+                <!-- Здесь будут отображаться серверы -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 MineCraft Hosting. Все права защищены.</p>
+    </footer>
+
+    <!-- Модальные окна -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('loginModal')">&times;</button>
+            <h2>Вход</h2>
+            <form class="modal-form" id="loginForm">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" name="email" required placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Пароль</label>
+                    <input type="password" id="login-password" name="password" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="modal-submit">Войти</button>
+            </form>
+            <div class="modal-switch">
+                <p>Нет аккаунта? <a href="#" onclick="switchModal('loginModal', 'registerModal')">Зарегистрироваться</a></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('registerModal')">&times;</button>
+            <h2>Регистрация</h2>
+            <form class="modal-form" id="registerForm">
+                <div class="form-group">
+                    <label for="register-name">Имя</label>
+                    <input type="text" id="register-name" name="name" required placeholder="Ваше имя">
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Email</label>
+                    <input type="email" id="register-email" name="email" required placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Пароль</label>
+                    <input type="password" id="register-password" name="password" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="modal-submit">Зарегистрироваться</button>
+            </form>
+            <div class="modal-switch">
+                <p>Уже есть аккаунт? <a href="#" onclick="switchModal('registerModal', 'loginModal')">Войти</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно смены пароля -->
+    <div class="modal" id="changePasswordModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('changePasswordModal')">&times;</button>
+            <h2>Сменить пароль</h2>
+            <form class="modal-form" id="changePasswordForm">
+                <div class="form-group">
+                    <label for="current-password">Текущий пароль</label>
+                    <input type="password" id="current-password" name="current-password" required placeholder="••••••••">
+                </div>
+                <div class="form-group">
+                    <label for="new-password">Новый пароль</label>
+                    <input type="password" id="new-password" name="new-password" required placeholder="••••••••">
+                </div>
+                <div class="form-group">
+                    <label for="confirm-new-password">Подтвердите новый пароль</label>
+                    <input type="password" id="confirm-new-password" name="confirm-new-password" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="modal-submit">Сменить пароль</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/scripts/app.js"></script>
+    <script>
+        // Загрузка и отображение услуг пользователя
+        document.addEventListener('DOMContentLoaded', () => {
+            loadUserServices();
+        });
+
+        function loadUserServices() {
+            const user = JSON.parse(localStorage.getItem('user') || 'null');
+            const servicesContainer = document.getElementById('services-container');
+            
+            if (!user || !user.loggedIn) {
+                servicesContainer.innerHTML = `
+                    <div class="no-services">
+                        <div class="no-services-icon">🔒</div>
+                        <h2>Необходима авторизация</h2>
+                        <p>Войдите в аккаунт, чтобы увидеть свои услуги</p>
+                        <button class="nav-btn" onclick="openModal('loginModal')">Войти</button>
+                    </div>
+                `;
+                return;
+            }
+
+            const allOrders = JSON.parse(localStorage.getItem('userOrders') || '[]');
+            const userOrders = allOrders.filter(order => order.userId === user.email);
+
+            if (userOrders.length === 0) {
+                servicesContainer.innerHTML = `
+                    <div class="no-services">
+                        <div class="no-services-icon">📦</div>
+                        <h2>У вас пока нет активных услуг</h2>
+                        <p>Закажите свой первый сервер Minecraft</p>
+                        <a href="/shop" class="nav-btn">Выбрать тариф</a>
+                    </div>
+                `;
+                return;
+            }
+
+            servicesContainer.innerHTML = userOrders.map((order, index) => {
+                const cartData = order.cart || [];
+                
+                return `
+                    <div class="service-card" style="animation-delay: ${index * 0.1}s">
+                        <div class="service-header">
+                            <div class="service-title">
+                                <h2>🖥️ ${order.serverName || 'Мой сервер'}</h2>
+                                <span class="service-status service-status-${order.status}">${order.status === 'active' ? 'Активен' : 'Неактивен'}</span>
+                            </div>
+                            <div class="service-date">Создан: ${new Date(order.orderDate).toLocaleDateString('ru-RU')}</div>
+                        </div>
+
+                        <div class="service-specs">
+                            ${cartData.map(item => `
+                                <div class="service-plan">
+                                    <div class="plan-badge">${item.name}</div>
+                                    <div class="spec-grid">
+                                        <div class="spec-item">
+                                            <span class="spec-icon">💾</span>
+                                            <span class="spec-label">RAM:</span>
+                                            <span class="spec-value">${item.ram}</span>
+                                        </div>
+                                        <div class="spec-item">
+                                            <span class="spec-icon">🔧</span>
+                                            <span class="spec-label">vCPU:</span>
+                                            <span class="spec-value">${item.cpu}</span>
+                                        </div>
+                                        <div class="spec-item">
+                                            <span class="spec-icon">💿</span>
+                                            <span class="spec-label">Диск:</span>
+                                            <span class="spec-value">${item.storage}</span>
+                                        </div>
+                                        ${item.ports ? `
+                                        <div class="spec-item">
+                                            <span class="spec-icon">🔌</span>
+                                            <span class="spec-label">Порты:</span>
+                                            <span class="spec-value">${item.ports}</span>
+                                        </div>
+                                        ` : ''}
+                                        ${item.databases ? `
+                                        <div class="spec-item">
+                                            <span class="spec-icon">🗄️</span>
+                                            <span class="spec-label">БД:</span>
+                                            <span class="spec-value">${item.databases}</span>
+                                        </div>
+                                        ` : ''}
+                                        ${item.backups ? `
+                                        <div class="spec-item">
+                                            <span class="spec-icon">💾</span>
+                                            <span class="spec-label">Бэкапы:</span>
+                                            <span class="spec-value">${item.backups}</span>
+                                        </div>
+                                        ` : ''}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Добавляем общий блок с данными панели внизу
+            if (userOrders.length > 0) {
+                const user = JSON.parse(localStorage.getItem('user'));
+                // Берем пароль панели из первого заказа (он одинаковый для всех серверов пользователя)
+                const panelPassword = userOrders[0].panelPassword;
+                
+                servicesContainer.innerHTML += `
+                    <div class="panel-info-section">
+                        <h2>Доступ к панели управления</h2>
+                        <p style="color: rgba(255, 255, 255, 0.7); margin-bottom: 2rem;">Данные для доступа ко всем вашим серверам</p>
+                        
+                        <div class="panel-credentials">
+                            <div class="panel-item">
+                                <span class="panel-label">Панель управления:</span>
+                                <a href="http://108.165.164.141/" target="_blank" class="panel-link">http://108.165.164.141/</a>
+                            </div>
+                            <div class="panel-item">
+                                <span class="panel-label">Логин:</span>
+                                <span class="panel-value">${user.email}</span>
+                            </div>
+                            <div class="panel-item">
+                                <span class="panel-label">Пароль:</span>
+                                <div class="password-container">
+                                    <span class="panel-password" id="main-password">••••••••</span>
+                                    <button class="password-toggle" onclick="toggleMainPassword('${panelPassword}')">👁️</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel-actions">
+                            <a href="http://108.165.164.141/" target="_blank" class="service-btn service-btn-primary">
+                                🚀 Открыть панель управления
+                            </a>
+                            <button class="service-btn service-btn-secondary" onclick="openChangePasswordModal()">
+                                🔑 Сменить пароль
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function toggleMainPassword(password) {
+            const passwordElement = document.getElementById('main-password');
+            const button = event.target;
+            
+            if (passwordElement.textContent === '••••••••') {
+                passwordElement.textContent = password;
+                button.textContent = '🙈';
+            } else {
+                passwordElement.textContent = '••••••••';
+                button.textContent = '👁️';
+            }
+        }
+    </script>
+
+    <!-- Модальное окно смены пароля -->
+    <div class="modal" id="changePasswordModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('changePasswordModal')">&times;</button>
+            <h2>Сменить пароль</h2>
+            <form class="modal-form" id="changePasswordForm">
+                <div class="form-group">
+                    <label for="current-password">Текущий пароль</label>
+                    <input type="password" id="current-password" name="current-password" required placeholder="••••••••">
+                </div>
+                <div class="form-group">
+                    <label for="new-password">Новый пароль</label>
+                    <input type="password" id="new-password" name="new-password" required placeholder="••••••••">
+                </div>
+                <div class="form-group">
+                    <label for="confirm-new-password">Подтвердите новый пароль</label>
+                    <input type="password" id="confirm-new-password" name="confirm-new-password" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="modal-submit">Сменить пароль</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

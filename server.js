@@ -6,11 +6,14 @@ const hostname = '127.0.0.1';
 const port = 3000;
 
 const server = createServer((req, res) => {
-  let filePath = path.join(__dirname, 'src/pages', req.url === '/' ? 'home.html' : req.url + '.html');
+  // Удаляем параметры запроса из URL
+  const url = req.url.split('?')[0];
+  
+  let filePath = path.join(__dirname, 'src/pages', url === '/' ? 'home.html' : url + '.html');
 
   // Serve static files
-  if (req.url.startsWith('/styles/') || req.url.startsWith('/scripts/') || req.url.startsWith('/assets/')) {
-    filePath = path.join(__dirname, 'src', req.url);
+  if (url.startsWith('/styles/') || url.startsWith('/scripts/') || url.startsWith('/assets/')) {
+    filePath = path.join(__dirname, 'src', url);
   }
 
   fs.readFile(filePath, (err, data) => {

@@ -337,7 +337,7 @@ nav {
     display: flex;
     gap: 2rem;
     list-style: none;
-    flex: 1;
+    align-items: center;
 }
 
 .nav-actions {
@@ -2156,4 +2156,368 @@ footer p {
 
 .item:hover {
     transform: scale(1.05);
+}
+
+/* Стили для страницы услуг */
+.services-section {
+    padding: 8rem 0 4rem;
+    min-height: 100vh;
+}
+
+.services-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.services-header h1 {
+    font-size: 3.5rem;
+    font-weight: 900;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #8b5cf6, #d946ef);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: glow 3s ease-in-out infinite;
+}
+
+.services-header p {
+    font-size: 1.3rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.services-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.service-card {
+    background: rgba(26, 11, 51, 0.5);
+    border: 2px solid rgba(139, 92, 246, 0.3);
+    border-radius: 20px;
+    padding: 2rem;
+    backdrop-filter: blur(20px);
+    transition: all 0.3s ease;
+    animation: slideUp 0.5s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(139, 92, 246, 0.6);
+    box-shadow: 0 10px 40px rgba(139, 92, 246, 0.3);
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.service-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+.service-title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.service-title h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0;
+}
+
+.service-status {
+    padding: 0.4rem 1rem;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.service-status-active {
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(22, 163, 74, 0.2));
+    color: #4ade80;
+    border: 1px solid rgba(34, 197, 94, 0.4);
+}
+
+.service-status-inactive {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(220, 38, 38, 0.2));
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+.service-date {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.95rem;
+}
+
+.service-specs {
+    margin-bottom: 2rem;
+}
+
+.service-plan {
+    margin-bottom: 1.5rem;
+}
+
+.plan-badge {
+    display: inline-block;
+    padding: 0.5rem 1.2rem;
+    background: linear-gradient(135deg, #8b5cf6, #d946ef);
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.spec-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.spec-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: rgba(15, 8, 32, 0.6);
+    border: 1px solid rgba(139, 92, 246, 0.2);
+    border-radius: 10px;
+}
+
+.spec-icon {
+    font-size: 1.3rem;
+}
+
+.spec-label {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+}
+
+.spec-value {
+    color: #fff;
+    font-weight: 600;
+    margin-left: auto;
+}
+
+.service-panel {
+    background: rgba(15, 8, 32, 0.6);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.service-panel h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #d946ef;
+}
+
+.panel-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.panel-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.panel-label {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.95rem;
+    min-width: 180px;
+}
+
+.panel-link {
+    color: #8b5cf6;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.panel-link:hover {
+    color: #d946ef;
+    text-decoration: underline;
+}
+
+.panel-value {
+    color: #fff;
+    font-weight: 600;
+}
+
+.password-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.panel-password {
+    color: #fff;
+    font-weight: 600;
+    font-family: 'Courier New', monospace;
+}
+
+.password-toggle {
+    background: rgba(139, 92, 246, 0.2);
+    border: 1px solid rgba(139, 92, 246, 0.4);
+    color: #fff;
+    padding: 0.3rem 0.6rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.password-toggle:hover {
+    background: rgba(139, 92, 246, 0.3);
+    transform: scale(1.05);
+}
+
+.service-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.service-btn {
+    flex: 1;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.service-btn-primary {
+    background: linear-gradient(135deg, #8b5cf6, #d946ef);
+    color: #fff;
+}
+
+.service-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(139, 92, 246, 0.5);
+}
+
+.service-btn-secondary {
+    background: rgba(139, 92, 246, 0.1);
+    border: 2px solid rgba(139, 92, 246, 0.4);
+    color: #fff;
+}
+
+.service-btn-secondary:hover {
+    background: rgba(139, 92, 246, 0.2);
+    border-color: rgba(139, 92, 246, 0.6);
+}
+
+.no-services {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: rgba(26, 11, 51, 0.5);
+    border: 2px dashed rgba(139, 92, 246, 0.3);
+    border-radius: 20px;
+}
+
+.no-services-icon {
+    font-size: 5rem;
+    margin-bottom: 1rem;
+}
+
+.no-services h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #fff;
+}
+
+.no-services p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+}
+
+/* Блок информации о панели */
+.panel-info-section {
+    background: rgba(26, 11, 51, 0.5);
+    border: 2px solid rgba(139, 92, 246, 0.4);
+    border-radius: 20px;
+    padding: 2.5rem;
+    backdrop-filter: blur(20px);
+    margin-top: 3rem;
+}
+
+.panel-info-section h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, #8b5cf6, #d946ef);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.panel-credentials {
+    background: rgba(15, 8, 32, 0.6);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: 15px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.panel-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+@media (max-width: 768px) {
+    .services-header h1 {
+        font-size: 2.5rem;
+    }
+
+    .service-header {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .spec-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .service-actions {
+        flex-direction: column;
+    }
+
+    .panel-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .panel-label {
+        min-width: auto;
+    }
 }

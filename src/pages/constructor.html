@@ -50,6 +50,7 @@
                 <li><a href="/">Главная</a></li>
                 <li><a href="/shop">Тарифы</a></li>
                 <li><a href="/constructor" class="active">Конструктор</a></li>
+                <li><a href="/services">Мои услуги</a></li>
             </ul>
             <div class="nav-actions">
                 <div class="balance-display" style="display: none;">
@@ -76,9 +77,9 @@
                             <span class="balance-amount" id="user-balance">0 ₽</span>
                         </div>
                         <div class="profile-menu-items">
-                            <a href="#" class="profile-menu-item">📊 Мои серверы</a>
+                            <a href="/services" class="profile-menu-item">📊 Мои услуги</a>
                             <a href="#" class="profile-menu-item">💳 Пополнить баланс</a>
-                            <a href="#" class="profile-menu-item">⚙️ Настройки</a>
+                            <a href="#" class="profile-menu-item" onclick="openChangePasswordModal()">🔑 Сменить пароль</a>
                             <a href="#" class="profile-menu-item logout-item" onclick="logout()">🚪 Выход</a>
                         </div>
                     </div>
@@ -90,7 +91,7 @@
     <main class="container">
         <section class="constructor-section">
             <div class="constructor-header">
-                <h1>⚙️ Конструктор Тарифа</h1>
+                <h1>Конструктор Тарифа</h1>
                 <p>Создайте идеальную конфигурацию для вашего сервера</p>
             </div>
 
@@ -408,5 +409,28 @@
         // Инициализация
         updateValues();
     </script>
+
+    <!-- Модальное окно смены пароля -->
+    <div class="modal" id="changePasswordModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('changePasswordModal')">&times;</button>
+            <h2>Сменить пароль</h2>
+            <form class="modal-form" id="changePasswordForm">
+                <div class="form-group">
+                    <label for="current-password">Текущий пароль</label>
+                    <input type="password" id="current-password" name="current-password" required placeholder="••••••••">
+                </div>
+                <div class="form-group">
+                    <label for="new-password">Новый пароль</label>
+                    <input type="password" id="new-password" name="new-password" required placeholder="••••••••">
+                </div>
+                <div class="form-group">
+                    <label for="confirm-new-password">Подтвердите новый пароль</label>
+                    <input type="password" id="confirm-new-password" name="confirm-new-password" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="modal-submit">Сменить пароль</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
