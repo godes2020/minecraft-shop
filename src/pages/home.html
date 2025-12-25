@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MineCraft Hosting - Лучший хостинг для вашего сервера</title>
+    <link rel="stylesheet" href="/styles/main.css">
+</head>
+<body>
+    <!-- Анимированные объекты на фоне -->
+    <div class="floating-objects">
+        <div class="floating-cube"></div>
+        <div class="floating-cube"></div>
+        <div class="floating-cube"></div>
+        <div class="floating-cube"></div>
+        <div class="floating-cube"></div>
+        <div class="floating-diamond"></div>
+        <div class="floating-diamond"></div>
+        <div class="floating-diamond"></div>
+    </div>
+
+    <!-- Панель корзины -->
+    <div class="cart-panel" id="cart-panel">
+        <div class="cart-header">
+            <h2>Корзина</h2>
+            <button class="cart-close" onclick="toggleCart()">&times;</button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <div class="cart-empty">
+                <div class="cart-empty-icon">🛒</div>
+                <p>Корзина пуста</p>
+                <p style="font-size: 0.9rem; margin-top: 0.5rem;">Добавьте тарифы для оформления заказа</p>
+            </div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span class="cart-total-label">Итого:</span>
+                <span class="cart-total-amount" id="cart-total">0 ₽</span>
+            </div>
+            <button class="cart-checkout-btn" onclick="checkoutFromCart()" disabled id="cart-checkout-btn">
+                Оформить заказ
+            </button>
+        </div>
+    </div>
+
+    <nav>
+        <div class="nav-container">
+            <a href="/" class="logo">MINECRAFT HOSTING</a>
+            <ul class="nav-links">
+                <li><a href="/" class="active">Главная</a></li>
+                <li><a href="/shop">Тарифы</a></li>
+                <li><a href="/constructor">Конструктор</a></li>
+            </ul>
+            <div class="nav-actions">
+                <div class="balance-display" style="display: none;">
+                    <span class="balance-label">Баланс:</span>
+                    <span class="balance-amount">0 ₽</span>
+                </div>
+                <button class="cart-button" onclick="toggleCart()">
+                    🛒
+                    <span class="cart-badge" id="cart-badge" style="display: none;">0</span>
+                </button>
+                <button class="nav-btn login-btn">Войти</button>
+                <button class="nav-btn register-btn">Регистрация</button>
+                <div class="user-profile" id="user-profile" style="display: none;">
+                    <button class="profile-button" onclick="toggleProfileMenu()">
+                        <span class="profile-avatar" id="profile-avatar">👤</span>
+                    </button>
+                    <div class="profile-menu" id="profile-menu">
+                        <div class="profile-header">
+                            <div class="profile-name" id="profile-name">Пользователь</div>
+                            <div class="profile-email" id="profile-email">user@email.com</div>
+                        </div>
+                        <div class="profile-balance">
+                            <span class="balance-label">Баланс:</span>
+                            <span class="balance-amount" id="user-balance">0 ₽</span>
+                        </div>
+                        <div class="profile-menu-items">
+                            <a href="#" class="profile-menu-item">📊 Мои серверы</a>
+                            <a href="#" class="profile-menu-item">💳 Пополнить баланс</a>
+                            <a href="#" class="profile-menu-item">⚙️ Настройки</a>
+                            <a href="#" class="profile-menu-item" onclick="logout()">🚪 Выйти</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1>Лучший Хостинг для Minecraft</h1>
+        <p>Мощные серверы, неоновая скорость, безграничные возможности</p>
+        <a href="/shop" class="cta-button">Выбрать тариф →</a>
+    </section>
+
+    <div class="container">
+        <h2 class="section-title">Почему выбирают нас?</h2>
+        
+        <div class="features">
+            <div class="feature-card">
+                <h3>Мгновенная Активация</h3>
+                <p>Ваш сервер будет готов к работе через 30 секунд после оплаты. Никаких ожиданий!</p>
+            </div>
+            
+            <div class="feature-card">
+                <h3>DDoS Защита</h3>
+                <p>Мощная защита от DDoS атак обеспечит стабильную работу вашего сервера 24/7</p>
+            </div>
+            
+            <div class="feature-card">
+                <h3>NVMe SSD</h3>
+                <p>Сверхбыстрые NVMe диски для моментальной загрузки миров и максимальной производительности</p>
+            </div>
+            
+            <div class="feature-card">
+                <h3>Автобэкапы</h3>
+                <p>Автоматическое резервное копирование каждые 6 часов. Ваши данные всегда в безопасности</p>
+            </div>
+            
+            <div class="feature-card">
+                <h3>Полный Контроль</h3>
+                <p>Удобная панель управления, FTP доступ, установка модов и плагинов в один клик</p>
+            </div>
+            
+            <div class="feature-card">
+                <h3>Поддержка 24/7</h3>
+                <p>Наша команда всегда на связи. Ответим на любой вопрос в течение 5 минут</p>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 4rem;">
+            <h2 class="section-title">Готовы начать?</h2>
+            <p style="font-size: 1.3rem; color: #aaa; margin-bottom: 2rem;">
+                Выберите идеальный тариф для вашего сервера
+            </p>
+            <a href="/shop" class="cta-button">Смотреть тарифы →</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>MINECRAFT HOSTING © 2025</p>
+        <p>Лучший хостинг для вашего Minecraft сервера</p>
+    </footer>
+
+    <!-- Модальное окно входа -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('loginModal')">&times;</button>
+            <h2>Вход в аккаунт</h2>
+            <form class="modal-form" id="loginForm">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" name="email" required placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Пароль</label>
+                    <input type="password" id="login-password" name="password" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="modal-submit">Войти</button>
+            </form>
+            <div class="modal-switch">
+                Нет аккаунта? <a href="#" onclick="switchModal('loginModal', 'registerModal')">Зарегистрироваться</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно регистрации -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('registerModal')">&times;</button>
+            <h2>Регистрация</h2>
+            <form class="modal-form" id="registerForm">
+                <div class="form-group">
+                    <label for="register-name">Имя</label>
+                    <input type="text" id="register-name" name="name" required placeholder="Ваше имя">
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Email</label>
+                    <input type="email" id="register-email" name="email" required placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Пароль</label>
+                    <input type="password" id="register-password" name="password" required placeholder="••••••••">
+                </div>
+                <div class="form-group">
+                    <label for="register-password-confirm">Подтвердите пароль</label>
+                    <input type="password" id="register-password-confirm" name="password-confirm" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="modal-submit">Зарегистрироваться</button>
+            </form>
+            <div class="modal-switch">
+                Уже есть аккаунт? <a href="#" onclick="switchModal('registerModal', 'loginModal')">Войти</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="/scripts/app.js"></script>
+</body>
+</html>

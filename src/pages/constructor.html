@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Конструктор тарифа - MineCraft Hosting</title>
+    <link rel="stylesheet" href="/styles/main.css">
+</head>
+<body>
+    <!-- Анимированные объекты на фоне -->
+    <div class="floating-objects">
+        <div class="floating-cube"></div>
+        <div class="floating-cube"></div>
+        <div class="floating-cube"></div>
+        <div class="floating-cube"></div>
+        <div class="floating-cube"></div>
+        <div class="floating-diamond"></div>
+        <div class="floating-diamond"></div>
+        <div class="floating-diamond"></div>
+    </div>
+
+    <!-- Панель корзины -->
+    <div class="cart-panel" id="cart-panel">
+        <div class="cart-header">
+            <h2>Корзина</h2>
+            <button class="cart-close" onclick="toggleCart()">&times;</button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <div class="cart-empty">
+                <div class="cart-empty-icon">🛒</div>
+                <p>Корзина пуста</p>
+                <p style="font-size: 0.9rem; margin-top: 0.5rem;">Добавьте тарифы для оформления заказа</p>
+            </div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span class="cart-total-label">Итого:</span>
+                <span class="cart-total-amount" id="cart-total">0 ₽</span>
+            </div>
+            <button class="cart-checkout-btn" onclick="checkoutFromCart()" disabled id="cart-checkout-btn">
+                Оформить заказ
+            </button>
+        </div>
+    </div>
+
+    <nav>
+        <div class="nav-container">
+            <a href="/" class="logo">MINECRAFT HOSTING</a>
+            <ul class="nav-links">
+                <li><a href="/">Главная</a></li>
+                <li><a href="/shop">Тарифы</a></li>
+                <li><a href="/constructor" class="active">Конструктор</a></li>
+            </ul>
+            <div class="nav-actions">
+                <div class="balance-display" style="display: none;">
+                    <span class="balance-label">Баланс:</span>
+                    <span class="balance-amount">0 ₽</span>
+                </div>
+                <button class="cart-button" onclick="toggleCart()">
+                    🛒
+                    <span class="cart-badge" id="cart-badge" style="display: none;">0</span>
+                </button>
+                <button class="nav-btn login-btn">Войти</button>
+                <button class="nav-btn register-btn">Регистрация</button>
+                <div class="user-profile" id="user-profile" style="display: none;">
+                    <button class="profile-button" onclick="toggleProfileMenu()">
+                        <span class="profile-avatar" id="profile-avatar">👤</span>
+                    </button>
+                    <div class="profile-menu" id="profile-menu">
+                        <div class="profile-header">
+                            <div class="profile-name" id="profile-name">Пользователь</div>
+                            <div class="profile-email" id="profile-email">user@email.com</div>
+                        </div>
+                        <div class="profile-balance">
+                            <span class="balance-label">Баланс:</span>
+                            <span class="balance-amount" id="user-balance">0 ₽</span>
+                        </div>
+                        <div class="profile-menu-items">
+                            <a href="#" class="profile-menu-item">📊 Мои серверы</a>
+                            <a href="#" class="profile-menu-item">💳 Пополнить баланс</a>
+                            <a href="#" class="profile-menu-item">⚙️ Настройки</a>
+                            <a href="#" class="profile-menu-item logout-item" onclick="logout()">🚪 Выход</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="constructor-section">
+            <div class="constructor-header">
+                <h1>⚙️ Конструктор Тарифа</h1>
+                <p>Создайте идеальную конфигурацию для вашего сервера</p>
+            </div>
+
+            <div class="constructor-container">
+                <div class="constructor-controls">
+                    <!-- CPU -->
+                    <div class="constructor-item">
+                        <div class="constructor-item-header">
+                            <label>🔧 vCPU</label>
+                            <span class="constructor-value" id="cpu-value">100%</span>
+                        </div>
+                        <input type="range" id="cpu-slider" min="50" max="1600" step="50" value="100" class="constructor-slider">
+                        <div class="constructor-range">
+                            <span>50%</span>
+                            <span>1600%</span>
+                        </div>
+                    </div>
+
+                    <!-- RAM -->
+                    <div class="constructor-item">
+                        <div class="constructor-item-header">
+                            <label>💾 Оперативная память</label>
+                            <span class="constructor-value" id="ram-value">1 GB</span>
+                        </div>
+                        <input type="range" id="ram-slider" min="1" max="32" step="1" value="1" class="constructor-slider">
+                        <div class="constructor-range">
+                            <span>1 GB</span>
+                            <span>32 GB</span>
+                        </div>
+                    </div>
+
+                    <!-- Disk -->
+                    <div class="constructor-item">
+                        <div class="constructor-item-header">
+                            <label>💿 Дисковое пространство</label>
+                            <span class="constructor-value" id="disk-value">1 GB</span>
+                        </div>
+                        <input type="range" id="disk-slider" min="1" max="200" step="1" value="1" class="constructor-slider">
+                        <div class="constructor-range">
+                            <span>1 GB</span>
+                            <span>200 GB</span>
+                        </div>
+                    </div>
+
+                    <!-- Ports -->
+                    <div class="constructor-item">
+                        <div class="constructor-item-header">
+                            <label>🔌 Порты</label>
+                            <span class="constructor-value" id="ports-value">1</span>
+                        </div>
+                        <input type="range" id="ports-slider" min="1" max="10" step="1" value="1" class="constructor-slider">
+                        <div class="constructor-range">
+                            <span>1 порт</span>
+                            <span>10 портов</span>
+                        </div>
+                    </div>
+
+                    <!-- Databases -->
+                    <div class="constructor-item">
+                        <div class="constructor-item-header">
+                            <label>🗄️ Базы данных</label>
+                            <span class="constructor-value" id="db-value">1</span>
+                        </div>
+                        <input type="range" id="db-slider" min="1" max="5" step="1" value="1" class="constructor-slider">
+                        <div class="constructor-range">
+                            <span>1 база</span>
+                            <span>5 баз</span>
+                        </div>
+                    </div>
+
+                    <!-- Backups -->
+                    <div class="constructor-item">
+                        <div class="constructor-item-header">
+                            <label>💾 Бэкапы</label>
+                            <span class="constructor-value" id="backups-value">1</span>
+                        </div>
+                        <input type="range" id="backups-slider" min="1" max="3" step="1" value="1" class="constructor-slider">
+                        <div class="constructor-range">
+                            <span>1 бэкап</span>
+                            <span>3 бэкапа</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="constructor-summary">
+                    <h2>📋 Итоговая конфигурация</h2>
+                    
+                    <div class="summary-details">
+                        <div class="summary-detail-item">
+                            <span class="detail-icon">🔧</span>
+                            <span class="detail-label">vCPU:</span>
+                            <span class="detail-value" id="summary-cpu">100%</span>
+                        </div>
+                        <div class="summary-detail-item">
+                            <span class="detail-icon">💾</span>
+                            <span class="detail-label">ОЗУ:</span>
+                            <span class="detail-value" id="summary-ram">1 GB</span>
+                        </div>
+                        <div class="summary-detail-item">
+                            <span class="detail-icon">💿</span>
+                            <span class="detail-label">Диск:</span>
+                            <span class="detail-value" id="summary-disk">1 GB</span>
+                        </div>
+                        <div class="summary-detail-item">
+                            <span class="detail-icon">🔌</span>
+                            <span class="detail-label">Порты:</span>
+                            <span class="detail-value" id="summary-ports">1</span>
+                        </div>
+                        <div class="summary-detail-item">
+                            <span class="detail-icon">🗄️</span>
+                            <span class="detail-label">Базы данных:</span>
+                            <span class="detail-value" id="summary-db">1</span>
+                        </div>
+                        <div class="summary-detail-item">
+                            <span class="detail-icon">💾</span>
+                            <span class="detail-label">Бэкапы:</span>
+                            <span class="detail-value" id="summary-backups">1</span>
+                        </div>
+                    </div>
+
+                    <div class="summary-features">
+                        <h3>✨ Включено:</h3>
+                        <ul>
+                            <li>✅ DDoS защита</li>
+                            <li>✅ Панель управления</li>
+                            <li>✅ Поддержка модов</li>
+                        </ul>
+                    </div>
+
+                    <div class="summary-price">
+                        <div class="price-label">Стоимость в месяц:</div>
+                        <div class="price-value" id="constructor-price">150 ₽</div>
+                    </div>
+
+                    <button class="add-to-cart-btn" onclick="addConstructorToCart()">
+                        🛒 Добавить в корзину
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 MineCraft Hosting. Все права защищены.</p>
+    </footer>
+
+    <!-- Модальные окна -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('loginModal')">&times;</button>
+            <h2>Вход</h2>
+            <form class="modal-form" id="loginForm">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" placeholder="Введите email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Пароль</label>
+                    <input type="password" id="login-password" placeholder="Введите пароль" required>
+                </div>
+                <button type="submit" class="modal-submit">Войти</button>
+            </form>
+            <div class="modal-switch">
+                <p>Нет аккаунта? <a href="#" onclick="switchModal('loginModal', 'registerModal')">Зарегистрироваться</a></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('registerModal')">&times;</button>
+            <h2>Регистрация</h2>
+            <form class="modal-form" id="registerForm">
+                <div class="form-group">
+                    <label for="register-name">Имя</label>
+                    <input type="text" id="register-name" placeholder="Введите имя" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Email</label>
+                    <input type="email" id="register-email" placeholder="Введите email" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Пароль</label>
+                    <input type="password" id="register-password" placeholder="Введите пароль" required>
+                </div>
+                <button type="submit" class="modal-submit">Зарегистрироваться</button>
+            </form>
+            <div class="modal-switch">
+                <p>Уже есть аккаунт? <a href="#" onclick="switchModal('registerModal', 'loginModal')">Войти</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="/scripts/app.js"></script>
+    <script>
+        // Конструктор тарифов
+        const sliders = {
+            cpu: document.getElementById('cpu-slider'),
+            ram: document.getElementById('ram-slider'),
+            disk: document.getElementById('disk-slider'),
+            ports: document.getElementById('ports-slider'),
+            db: document.getElementById('db-slider'),
+            backups: document.getElementById('backups-slider')
+        };
+
+        const values = {
+            cpu: document.getElementById('cpu-value'),
+            ram: document.getElementById('ram-value'),
+            disk: document.getElementById('disk-value'),
+            ports: document.getElementById('ports-value'),
+            db: document.getElementById('db-value'),
+            backups: document.getElementById('backups-value')
+        };
+
+        const summaryValues = {
+            cpu: document.getElementById('summary-cpu'),
+            ram: document.getElementById('summary-ram'),
+            disk: document.getElementById('summary-disk'),
+            ports: document.getElementById('summary-ports'),
+            db: document.getElementById('summary-db'),
+            backups: document.getElementById('summary-backups')
+        };
+
+        const priceDisplay = document.getElementById('constructor-price');
+
+        function calculatePrice() {
+            const cpu = parseInt(sliders.cpu.value);
+            const ram = parseInt(sliders.ram.value);
+            const disk = parseInt(sliders.disk.value);
+            const ports = parseInt(sliders.ports.value);
+            const db = parseInt(sliders.db.value);
+            const backups = parseInt(sliders.backups.value);
+
+            // Расчет цены
+            let price = 50; // базовая цена
+            price += (cpu / 100) * 30; // 30₽ за 100% vCPU
+            price += ram * 25; // 25₽ за GB RAM
+            price += disk * 2; // 2₽ за GB диска
+            price += (ports - 1) * 15; // 15₽ за дополнительный порт
+            price += (db - 1) * 50; // 50₽ за дополнительную БД
+            price += (backups - 1) * 30; // 30₽ за дополнительный бэкап
+
+            return Math.round(price);
+        }
+
+        function updateValues() {
+            const cpu = parseInt(sliders.cpu.value);
+            const ram = parseInt(sliders.ram.value);
+            const disk = parseInt(sliders.disk.value);
+            const ports = parseInt(sliders.ports.value);
+            const db = parseInt(sliders.db.value);
+            const backups = parseInt(sliders.backups.value);
+
+            // Обновляем текстовые значения
+            const cpuText = `${cpu}%`;
+            values.cpu.textContent = cpuText;
+            summaryValues.cpu.textContent = cpuText;
+
+            values.ram.textContent = `${ram} GB`;
+            summaryValues.ram.textContent = `${ram} GB`;
+
+            values.disk.textContent = `${disk} GB`;
+            summaryValues.disk.textContent = `${disk} GB`;
+
+            values.ports.textContent = ports;
+            summaryValues.ports.textContent = ports;
+
+            values.db.textContent = db;
+            summaryValues.db.textContent = db;
+
+            values.backups.textContent = backups;
+            summaryValues.backups.textContent = backups;
+
+            // Обновляем цену
+            const price = calculatePrice();
+            priceDisplay.textContent = `${price} ₽`;
+        }
+
+        // Добавляем обработчики событий для всех ползунков
+        Object.values(sliders).forEach(slider => {
+            slider.addEventListener('input', updateValues);
+        });
+
+        // Функция добавления в корзину
+        function addConstructorToCart() {
+            const cpu = parseInt(sliders.cpu.value);
+            const ram = parseInt(sliders.ram.value);
+            const disk = parseInt(sliders.disk.value);
+            const ports = parseInt(sliders.ports.value);
+            const db = parseInt(sliders.db.value);
+            const backups = parseInt(sliders.backups.value);
+            const price = calculatePrice();
+
+            const customPlan = {
+                id: 'custom_' + Date.now(),
+                name: 'CUSTOM',
+                ram: `${ram}GB`,
+                cpu: `${cpu}%`,
+                slots: 'По конфигурации',
+                storage: `${disk}GB SSD`,
+                ports: `${ports} ${ports === 1 ? 'порт' : ports < 5 ? 'порта' : 'портов'}`,
+                databases: `${db} ${db === 1 ? 'база' : db < 5 ? 'базы' : 'баз'} данных`,
+                backups: `${backups} ${backups === 1 ? 'бэкап' : backups < 5 ? 'бэкапа' : 'бэкапов'}`,
+                price: price.toString(),
+                features: [
+                    'DDoS защита',
+                    'Панель управления',
+                    'Поддержка модов'
+                ]
+            };
+
+            addToCart(customPlan);
+        }
+
+        // Инициализация
+        updateValues();
+    </script>
+</body>
+</html>

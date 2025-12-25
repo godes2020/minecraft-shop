@@ -1,0 +1,73 @@
+{
+  "plans": [
+    {
+      "id": 1,
+      "name": "STARTER",
+      "ram": "2GB",
+      "cpu": "200%",
+      "slots": "10 игроков",
+      "storage": "10GB SSD",
+      "ports": "1 порт",
+      "databases": "1 база данных",
+      "backups": "1 бэкап",
+      "price": "299",
+      "features": [
+        "DDoS защита",
+        "Панель управления",
+        "Поддержка модов"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "GAMING",
+      "ram": "4GB",
+      "cpu": "400%",
+      "slots": "25 игроков",
+      "storage": "25GB SSD",
+      "ports": "2 порта",
+      "databases": "2 базы данных",
+      "backups": "2 бэкапа",
+      "price": "599",
+      "popular": true,
+      "features": [
+        "DDoS защита",
+        "Панель управления",
+        "Поддержка модов"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "PRO",
+      "ram": "8GB",
+      "cpu": "600%",
+      "slots": "50 игроков",
+      "storage": "50GB SSD",
+      "ports": "3 порта",
+      "databases": "3 базы данных",
+      "backups": "3 бэкапа",
+      "price": "999",
+      "features": [
+        "DDoS защита",
+        "Панель управления",
+        "Поддержка модов"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "ULTRA",
+      "ram": "16GB",
+      "cpu": "800%",
+      "slots": "100 игроков",
+      "storage": "100GB NVMe",
+      "ports": "5 портов",
+      "databases": "5 баз данных",
+      "backups": "3 бэкапа",
+      "price": "1799",
+      "features": [
+        "DDoS защита",
+        "Панель управления",
+        "Поддержка модов"
+      ]
+    }
+  ]
+}

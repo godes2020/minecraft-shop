@@ -1,0 +1,20 @@
+{
+  "name": "minecraft-shop",
+  "version": "1.0.0",
+  "description": "A neon-themed online shop for Minecraft items.",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "keywords": [
+    "minecraft",
+    "shop",
+    "neon",
+    "online store"
+  ],
+  "author": "Your Name",
+  "license": "MIT"
+}
